@@ -1,0 +1,15 @@
+{
+  "_comment": "Tunable thresholds for the tech-tips self-improving loop. Only the loop's L3 hypothesis stage may propose edits here, and only via a dedicated PR that a human must merge (see state/ledger.json and README.md). Everything else in this repo's automation is immutable — see .claude/skills/bhhs-vac-tech-tips-loop/SKILL.md#immutable.",
+  "version": 1,
+  "dead_link_timeout_seconds": 10,
+  "dead_link_retries": 1,
+  "stale_after_days": 180,
+  "max_parallel_search_calls_per_run": 16,
+  "discovery_queries_per_run": 2,
+  "new_candidate_min_confidence": 0.6,
+  "repeat_escalation_threshold": 3,
+  "report_cap_items": 15,
+  "trial_window_runs": 3,
+  "proposal_expiry_runs": 4,
+  "convergence_clean_runs_required": 4
+}

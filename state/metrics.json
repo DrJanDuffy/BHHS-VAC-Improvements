@@ -1,0 +1,4 @@
+{
+  "_comment": "Append-only time series of L1 metrics, one entry per completed run. Read by check_tips.py to drive L2 diagnosis (2+ consecutive breaches) and L6 verification (trial windows). Never hand-edit except to correct a provably wrong value; note any manual correction in state/ledger.json.",
+  "runs": []
+}
