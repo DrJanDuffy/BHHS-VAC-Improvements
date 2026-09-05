@@ -21,6 +21,8 @@ it.
 
 ## How to use this doc
 
+0. For what is *currently* connected to the workspace — and which of those
+   to keep, mute, or disconnect — see [`connector-roster.md`](./connector-roster.md).
 1. Skim **Priority for BHHS VAC** for the connectors worth wiring up first.
 2. Use the category tables to find alternatives or fill a gap (e.g. a second
    e-signature or SMS provider).
