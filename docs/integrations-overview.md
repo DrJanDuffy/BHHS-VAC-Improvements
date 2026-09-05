@@ -7,10 +7,13 @@ sync, scheduling, marketing, and back-office operations for a BHHS Nevada
 REALTOR practice).
 
 Each connector is listed with its auth model — **Managed** (Anthropic-hosted
-OAuth), **OAuth** (bring-your-own OAuth app), **API Key**, or **MCP**
-(exposed as a Model Context Protocol server) — since that determines the
-setup work (an admin consent flow vs. a stored secret) before the VAC
-backend can call it.
+OAuth), **OAuth** (bring-your-own OAuth app), **API Key**, **MCP**
+(exposed as a Model Context Protocol server), or **Native** (already
+connected to this workspace as a first-party tool suite; usable from Claude
+with no extra provisioning, but the VAC backend still needs the vendor's own
+API credentials to call it directly) — since that determines the setup work
+(an admin consent flow vs. a stored secret) before the VAC backend can call
+it.
 
 > Auth models aren't mutually exclusive — several connectors (Notion,
 > Vercel, Resend, Jira, Sanity, etc.) support more than one, so pick
@@ -66,7 +69,7 @@ account's connector catalog today.
 |---|---|
 | Salesforce *(beta)* | OAuth |
 | HubSpot | OAuth |
-| Attio | (native tools) |
+| Attio | Native |
 | monday.com | OAuth, API Key |
 
 ## Messaging & Communication
@@ -132,11 +135,11 @@ account's connector catalog today.
 |---|---|
 | Figma | OAuth |
 | Canva | OAuth |
-| Adobe (for creativity) | *(native MCP tool suite)* |
+| Adobe (for creativity) | Native |
 | Cloudinary | MCP, API Key |
 | Zeplin | OAuth |
 | ElevenLabs | API Key |
-| Gamma | *(native tools)* |
+| Gamma | Native |
 
 ## Dev, Infra & Data
 
@@ -200,7 +203,7 @@ account's connector catalog today.
 
 | Connector | Auth |
 |---|---|
-| Zapier | *(native tools)* |
+| Zapier | Native |
 | n8n | API Key |
 | Make | MCP |
 | Algolia | API Key |
