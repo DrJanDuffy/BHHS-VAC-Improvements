@@ -32,7 +32,7 @@ npm run start:dev  # http://localhost:3000
 
 | Script | What it does |
 |---|---|
-| `npm run check` | Everything CI runs: lint, format check, typecheck, unit, e2e |
+| `npm run check` | Everything CI runs: lint, format check, typecheck, build, unit, e2e |
 | `npm run lint` / `npm run format` | oxlint / prettier |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm test` / `npm run test:e2e` | vitest unit / e2e |
@@ -40,7 +40,7 @@ npm run start:dev  # http://localhost:3000
 
 ## Layout
 
-```
+```text
 src/
   main.ts            bootstrap
   app.module.ts      root module — imports ConfigModule + feature modules
