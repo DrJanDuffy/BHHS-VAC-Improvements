@@ -15,6 +15,7 @@ lerna-debug.log*
 
 # dotenv environment variable files
 .env
+.env.local
 .env.development
 .env.test
 .env.production
@@ -28,3 +29,17 @@ lerna-debug.log*
 
 # TypeScript incremental build state
 *.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vitest cache
+.vitest/
