@@ -1,0 +1,4 @@
+{
+  "_comment": "Append-only record of every self-improvement change proposed against config/loop_config.json: what changed, the prior value (for exact revert), the prediction, and the verified outcome. Never edit or delete an entry.",
+  "entries": []
+}
