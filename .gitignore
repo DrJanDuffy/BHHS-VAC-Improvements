@@ -43,3 +43,9 @@ Thumbs.db
 
 # Vitest cache
 .vitest/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+run-summary.md

@@ -1,0 +1,5 @@
+{
+  "_comment": "Current + historical flag state keyed by tip id, for aging and REPEAT×N escalation across runs. resolved_since_last_run is recomputed each run for the yield metric.",
+  "flags": {},
+  "no_new_candidate_already_reported": []
+}

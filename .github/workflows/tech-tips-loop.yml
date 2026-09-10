@@ -1,0 +1,59 @@
+name: BHHS VAC Tech Tips — freshness loop
+
+on:
+  schedule:
+    # Every Monday 13:00 UTC (~06:00 Pacific). Weekly cadence — the tip
+    # sheet moves slowly and there is no reason to burn Parallel Search
+    # budget more often than that.
+    - cron: "0 13 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: tech-tips-loop
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Run freshness check
+        env:
+          PARALLEL_API_KEY: ${{ secrets.PARALLEL_API_KEY }}
+        run: |
+          cd scripts
+          python check_tips.py --summary-out "$GITHUB_WORKSPACE/run-summary.md"
+
+      - name: Open pull request with any changes
+        id: pr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: tech-tips-loop/${{ github.run_id }}
+          commit-message: "tech-tips-loop: weekly freshness check"
+          title: "[Tech Tips Loop] Weekly freshness check"
+          body-path: run-summary.md
+          labels: tech-tips-loop, automated
+          delete-branch: true
+          add-paths: |
+            data/tech_tips.csv
+            data/MISCELLANEOUS_TECH_TIPS.xlsx
+            state/metrics.json
+            state/flags.json
+            state/ledger.json
+
+      - name: No changes
+        if: steps.pr.outputs.pull-request-number == ''
+        run: echo "No drift detected this run — nothing to open a PR for."
