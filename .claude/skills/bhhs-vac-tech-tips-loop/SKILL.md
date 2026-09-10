@@ -17,7 +17,7 @@ This skill is the conversational half of a two-part system living in this repo:
 ## HARD RULES
 
 - **Never push to `main` or merge a PR yourself.** Every data or config change — routine or self-improvement — lands as a PR. A human merges it.
-- **Never edit `config/loop_config.json` directly on `main`.** A proposed change goes in its own PR (see L4) with a ledger entry; merging that PR *is* the human approval.
+- **Never edit `config/loop_config.json` directly on `main`.** A proposed change goes in its own PR (see L4) with a ledger entry; merging that PR _is_ the human approval.
 - **Never delete a `state/ledger.json` entry**, and never rewrite one except to append a `trial_run_dates` timestamp or set its terminal `outcome` (done mechanically by `check_tips.py` — leave that machinery alone).
 - **Respect the Parallel Search budget** in `config/loop_config.json` (`max_parallel_search_calls_per_run`). A conversational run counts against the same weekly intent — don't burn a second full budget the same week the workflow already ran, unless the human explicitly asks for a fresh check.
 - **A candidate tip discovered by search is never promoted to `active` by this skill.** It lands as `status: candidate_new` for a human to confirm; only a human edits that field.
@@ -40,13 +40,13 @@ A suggestion box is not a loop. A loop measures, diagnoses, predicts, trials, **
 
 ### L1 — MEASURE (mechanical, every run — see `check_tips.py`)
 
-| Metric | Definition | Target |
-|---|---|---|
+| Metric      | Definition                                                                                                                          | Target |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------ |
 | `precision` | Of tips flagged last run, the share still flagged or since resolved. Flags that silently vanished with no fix were false positives. | ≥ 0.70 |
-| `coverage` | Active tips actually checked ÷ active tips total. | = 1.00 |
-| `cost` | Parallel Search calls used ÷ `max_parallel_search_calls_per_run`. | ≤ 0.85 |
-| `yield` | Resolved-since-last-run ÷ flagged-last-run. Did the report cause a fix? | ≥ 0.15 |
-| `noise` | Flags at `repeat_count ≥ repeat_escalation_threshold` with no resolution ÷ total flagged. | ≤ 0.25 |
+| `coverage`  | Active tips actually checked ÷ active tips total.                                                                                   | = 1.00 |
+| `cost`      | Parallel Search calls used ÷ `max_parallel_search_calls_per_run`.                                                                   | ≤ 0.85 |
+| `yield`     | Resolved-since-last-run ÷ flagged-last-run. Did the report cause a fix?                                                             | ≥ 0.15 |
+| `noise`     | Flags at `repeat_count ≥ repeat_escalation_threshold` with no resolution ÷ total flagged.                                           | ≤ 0.25 |
 
 `yield`'s target is lower than the sibling CRM/task loops on purpose: this is a 14-tip sheet with a weekly cadence and no urgency comparable to a stale lead — a fix landing every 6-7 weeks is healthy, not broken.
 
@@ -54,7 +54,7 @@ The series lives in `state/metrics.json`. **A single run is noise; the series is
 
 ### L2 — DIAGNOSE (you, on a 2+ consecutive breach)
 
-`check_tips.py` already tells you which metric(s) breached 2+ runs running (the `NEEDS_DIAGNOSIS` state and the `⚠️ Breaching...` line in its summary). Your job: read `state/metrics.json` and `state/flags.json` and name the *specific* rule at fault.
+`check_tips.py` already tells you which metric(s) breached 2+ runs running (the `NEEDS_DIAGNOSIS` state and the `⚠️ Breaching...` line in its summary). Your job: read `state/metrics.json` and `state/flags.json` and name the _specific_ rule at fault.
 
 "Yield is low" is not a diagnosis. "Yield is 0.0 because `stale_after_days: 180` never fires in a sheet this small before a human notices and fixes the link anyway — `stale` flags are just dead weight that never resolves through this loop's own mechanism" is.
 
@@ -66,7 +66,7 @@ State, in your reply to the human:
 
 - **The change** — the exact key/value to edit in `config/loop_config.json`. Not a description.
 - **Predicted effect** — which metric moves, which direction, to what value.
-- **Predicted non-effect** — which metrics must *not* move.
+- **Predicted non-effect** — which metrics must _not_ move.
 - **Verification window** — 3 runs (`trial_window_runs` in config).
 
 Eligible changes are small: one threshold in `config/loop_config.json` (`stale_after_days`, `repeat_escalation_threshold`, `dead_link_timeout_seconds`, `max_parallel_search_calls_per_run` — lowering only, `discovery_queries_per_run`, `report_cap_items`). **Never** a new data source, a new write capability, a change to the PR-only posture, or a change to this file's HARD RULES.
@@ -74,6 +74,7 @@ Eligible changes are small: one threshold in `config/loop_config.json` (`stale_a
 ### L4 — GATE (a PR, always — merging it is the approval)
 
 Open a small PR that:
+
 1. Changes exactly one value in `config/loop_config.json`.
 2. Appends one entry to `state/ledger.json` with `outcome: "TRIAL"`, the exact prior value in `prior_text`, the prediction, and `must_not_move`, and `trial_run_dates: []`.
 
@@ -92,7 +93,7 @@ Also mechanical. `check_tips.py` compares the actual metric after 3 trial runs a
 1. The PR-only posture — nothing in this system may commit or merge directly to `main`.
 2. The human-merge-is-the-gate mechanism for config changes.
 3. The `candidate_new` review gate — search-discovered tips are never auto-promoted to `active`.
-4. `max_parallel_search_calls_per_run` may only be *lowered* by a proposal, never raised above its original value (16) without an explicit human ask outside this loop.
+4. `max_parallel_search_calls_per_run` may only be _lowered_ by a proposal, never raised above its original value (16) without an explicit human ask outside this loop.
 5. The 3-run trial window and the requirement to verify before accepting.
 6. This list.
 
