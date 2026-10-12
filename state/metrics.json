@@ -1,4 +1,22 @@
 {
   "_comment": "Append-only time series of L1 metrics, one entry per completed run. Read by check_tips.py to drive L2 diagnosis (2+ consecutive breaches) and L6 verification (trial windows). Never hand-edit except to correct a provably wrong value; note any manual correction in state/ledger.json.",
-  "runs": []
+  "runs": [
+    {
+      "date": "2026-10-12",
+      "iso_week": "2026-W42",
+      "precision": 1.0,
+      "coverage": 0.0,
+      "cost": 0.0,
+      "yield": 1.0,
+      "noise": 0.0,
+      "calls_used": 0,
+      "flagged_count": 0,
+      "resolved_count": 0,
+      "candidates_found": 0,
+      "suppressed": false,
+      "breaches": [
+        "coverage"
+      ]
+    }
+  ]
 }
